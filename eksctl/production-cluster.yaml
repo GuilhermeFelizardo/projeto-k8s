@@ -19,6 +19,36 @@ vpc:
           id: "subnet-0b50a0ae537b86792"
         us-east-1c:
           id: "subnet-0b6fce12df133749f"
+addons:
+- name: vpc-cni
+  attachPolicyARNs: #optional
+  - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+  serviceAccountRoleARN: arn:aws:iam::aws:policy/AmazonEKSCNIAccess # optional
+  resolveConflicts: overwrite
+  tags: # optional
+    team: eks
+  attachPolicy: # optional
+    Statement:
+    - Effect: Allow
+      Action:
+      - ec2:AssignPrivateIpAddresses
+      - ec2:AttachNetworkInterface
+      - ec2:CreateNetworkInterface
+      - ec2:DeleteNetworkInterface
+      - ec2:DescribeInstances
+      - ec2:DescribeTags
+      - ec2:DescribeNetworkInterfaces
+      - ec2:DescribeInstanceTypes
+      - ec2:DetachNetworkInterface
+      - ec2:ModifyNetworkInterfaceAttribute
+      - ec2:UnassignPrivateIpAddresses
+      Resource: '*'
+- name: coredns
+  version: latest # auto discovers the latest available
+- name: kube-proxy
+  version: latest
+
+
 managedNodeGroups:
   - name: production-cluster-a
     instanceTypes: ["t3.small"]
@@ -31,8 +61,11 @@ managedNodeGroups:
     iam:
       attachPolicyARNs:
         - arn:aws:iam::022887457179:policy/nodes-policy
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy
     ssh:
       enableSsm: true
