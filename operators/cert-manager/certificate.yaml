@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: meu-certificado
+  namespace: cert-manager
+spec:
+  secretName: meu-certificado-tls
+  secretTemplate:
+    annotations:
+      kubed.appscode.com/sync: ""
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - "guilhermefreis.com"

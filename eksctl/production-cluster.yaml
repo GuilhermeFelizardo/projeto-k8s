@@ -1,0 +1,38 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: production-cluster
+  region: us-east-1
+  version: "1.28"
+  tags:
+    managed: eksctl
+    owner: production-cluster
+vpc:
+  id: "vpc-0d73d2f5e07f9352c"
+  securityGroup: "sg-0ea8c00a87884d55e"
+  subnets:
+    public:
+        us-east-1a:
+          id: "subnet-01cda0b5b0ff8a108"
+        us-east-1b:
+          id: "subnet-0b50a0ae537b86792"
+        us-east-1c:
+          id: "subnet-0b6fce12df133749f"
+managedNodeGroups:
+  - name: production-cluster-a
+    instanceTypes: ["t3.small"]
+    spot: true
+    minSize: 1
+    maxSize: 2
+    desiredCapacity: 1
+    volumeSize: 30
+    availabilityZones: ["us-east-1a"]
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::022887457179:policy/nodes-policy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+    ssh:
+      enableSsm: true
