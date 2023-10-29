@@ -43,5 +43,3 @@ Imagine que você possui um Secret chamado `my-secret` no namespace `default` e 
 2. **Aplicando essa Configuração:** Após aplicar essa configuração, o Kubed identificará a annotation e replicará `my-secret` para todos os outros namespaces do cluster.
 
 ---
-
-Este documento deve fornecer uma visão geral clara do funcionamento do Kubed, especialmente em relação à replicação de Secrets. Sinta-se à vontade para adaptar o conteúdo às necessidades e estilo da sua documentação.
