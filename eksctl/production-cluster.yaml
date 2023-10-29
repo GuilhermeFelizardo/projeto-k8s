@@ -21,13 +21,11 @@ vpc:
           id: "subnet-0b6fce12df133749f"
 addons:
 - name: vpc-cni
-  attachPolicyARNs: #optional
+  attachPolicyARNs:
   - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
-  serviceAccountRoleARN: arn:aws:iam::aws:policy/AmazonEKSCNIAccess # optional
+  serviceAccountRoleARN: arn:aws:iam::aws:policy/AmazonEKSCNIAccess
   resolveConflicts: overwrite
-  tags: # optional
-    team: eks
-  attachPolicy: # optional
+  attachPolicy:
     Statement:
     - Effect: Allow
       Action:
@@ -44,11 +42,9 @@ addons:
       - ec2:UnassignPrivateIpAddresses
       Resource: '*'
 - name: coredns
-  version: latest # auto discovers the latest available
+  version: latest
 - name: kube-proxy
   version: latest
-
-
 managedNodeGroups:
   - name: production-cluster-a
     instanceTypes: ["t3.small"]
