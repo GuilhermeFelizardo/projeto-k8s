@@ -15,6 +15,8 @@ Para instalar o cert-manager em seu cluster Kubernetes:
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml
 ```
 
+Para ver qual a ultima versão disponível, consultar "https://cert-manager.io/docs/installation/"
+
 Certifique-se de que `kubectl` esteja corretamente configurado e de que você possua permissões suficientes para instalar componentes no cluster.
 
 ## Arquivos de Configuração Explicados

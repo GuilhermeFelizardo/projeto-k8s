@@ -21,6 +21,7 @@ vpc:
           id: "subnet-0b6fce12df133749f"
 addons:
 - name: vpc-cni
+  version: latest
   attachPolicyARNs:
   - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
   serviceAccountRoleARN: arn:aws:iam::aws:policy/AmazonEKSCNIAccess
@@ -45,13 +46,15 @@ addons:
   version: latest
 - name: kube-proxy
   version: latest
+- name: aws-ebs-csi-driver
+  version: latest
 managedNodeGroups:
-  - name: production-cluster-a
+  - name: production-cluster-ng-1
     instanceTypes: ["t3.small"]
     spot: true
     minSize: 1
     maxSize: 2
-    desiredCapacity: 1
+    desiredCapacity: 2
     volumeSize: 30
     availabilityZones: ["us-east-1a"]
     iam:
