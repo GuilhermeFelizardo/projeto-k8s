@@ -1,0 +1,11 @@
+Update aws-auth ConfigMap
+We need to allow nodes that are using the node IAM role we just created to join the cluster. To do that we have to modify the aws-auth ConfigMap in the cluster.
+
+kubectl edit configmap aws-auth -n kube-system
+You will need to add a section to the mapRoles that looks something like this. Replace the ${AWS_PARTITION} variable with the account partition, ${AWS_ACCOUNT_ID} variable with your account ID, and ${CLUSTER_NAME} variable with the cluster name, but do not replace the {{EC2PrivateDNSName}}.
+
+- groups:
+  - system:bootstrappers
+  - system:nodes
+  rolearn: arn:${AWS_PARTITION}:iam::${AWS_ACCOUNT_ID}:role/KarpenterNodeRole-${CLUSTER_NAME}
+  username: system:node:{{EC2PrivateDNSName}}
