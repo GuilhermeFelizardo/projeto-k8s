@@ -56,7 +56,7 @@ managedNodeGroups:
     maxSize: 2
     desiredCapacity: 2
     volumeSize: 30
-    availabilityZones: ["us-east-1a"]
+    availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
     iam:
       attachPolicyARNs:
         - arn:aws:iam::022887457179:policy/nodes-policy
