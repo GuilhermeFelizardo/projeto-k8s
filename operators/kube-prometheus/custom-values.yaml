@@ -70,6 +70,15 @@ prometheus:
 grafana:
   defaultDashboardsTimezone: America/Sao_Paulo
   adminPassword: prom-operator
+  grafana.ini:
+    users:
+      viewers_can_edit: false
+    auth:
+      disable_login_form: false
+      disable_signout_menu: false
+    auth.anonymous:
+      enabled: true
+      org_role: Viewer
   additionalDatasources:
     - name: Loki
       type: loki
