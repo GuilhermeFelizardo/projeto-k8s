@@ -59,3 +59,10 @@ O script verifica se a Role ou o Perfil de Instância já existem antes de tenta
   - system:nodes
   rolearn: arn:${AWS_PARTITION}:iam::${AWS_ACCOUNT_ID}:role/KarpenterNodeRole-${CLUSTER_NAME}
   username: system:node:{{EC2PrivateDNSName}}
+
+
+- groups:
+  - system:bootstrappers
+  - system:nodes
+  rolearn: arn:aws:iam::022887457179:role/KarpenterNodeRole-production-cluster
+  username: system:node:{{EC2PrivateDNSName}}

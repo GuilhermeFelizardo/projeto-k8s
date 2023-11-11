@@ -1,0 +1,11 @@
+loki:
+  isDefault: false
+  namespace: monitoring
+  url: http://{{(include "loki.serviceName" .)}}.{{ .Values.loki.namespace }}.svc.cluster.local:{{ .Values.loki.service.port }}
+  config:
+    table_manager:
+      retention_period: 168h
+
+promtail:
+  clients:
+    -   url: http://{{(include "loki.serviceName" .)}}.{{ .Values.loki.namespace }}.svc.cluster.local:{{ .Values.loki.service.port }}/loki/api/v1/push

@@ -19,6 +19,8 @@ vpc:
           id: "subnet-0b50a0ae537b86792"
         us-east-1c:
           id: "subnet-0b6fce12df133749f"
+# iam:
+#   withOIDC: true
 addons:
 - name: vpc-cni
   version: latest
@@ -50,11 +52,11 @@ addons:
   version: latest
 managedNodeGroups:
   - name: production-cluster-ng-1
-    instanceTypes: ["t3.small"]
+    instanceTypes: ["t3.medium"]
     spot: true
     minSize: 1
-    maxSize: 2
-    desiredCapacity: 2
+    maxSize: 4
+    desiredCapacity: 3
     volumeSize: 30
     availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
     iam:
@@ -66,5 +68,3 @@ managedNodeGroups:
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
         - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy
-    ssh:
-      enableSsm: true

@@ -42,4 +42,40 @@ Imagine que você possui um Secret chamado `my-secret` no namespace `default` e 
 
 2. **Aplicando essa Configuração:** Após aplicar essa configuração, o Kubed identificará a annotation e replicará `my-secret` para todos os outros namespaces do cluster.
 
----
+Aqui está um documento em Markdown detalhando a instalação do Kubed via Helm:
+
+# Instalação do Kubed via Helm
+
+Este documento fornece instruções passo a passo para a instalação do Kubed usando Helm em um cluster Kubernetes.
+
+## Pré-requisitos
+
+- Um cluster Kubernetes configurado
+- Helm instalado
+
+## Adicionar Repositório Appscode ao Helm
+
+Primeiro, adicione o repositório Appscode ao seu Helm:
+
+```bash
+helm repo add appscode https://charts.appscode.com/stable/
+helm repo update
+```
+
+## Instalar Kubed
+
+Após adicionar o repositório e atualizá-lo, você pode instalar o Kubed. A instalação será feita no namespace `kube-system`:
+
+```bash
+helm install kubed appscode/kubed --version v0.12.0 --namespace kube-system
+```
+
+## Verificação
+
+Para verificar se o Kubed foi instalado corretamente, execute:
+
+```bash
+kubectl get pods -n kube-system
+```
+
+Você deve ver os pods do Kubed em execução no namespace `kube-system`.

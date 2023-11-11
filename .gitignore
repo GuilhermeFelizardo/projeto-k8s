@@ -1,3 +1,94 @@
+# Arquivos de sistema do Linux
+*~
+
+# Arquivos de diretório do Linux
+.DS_Store
+
+# Arquivos de sistema do Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails do Mac
+._*
+
+# Arquivos do Spotlight do Mac
+.Spotlight-V100
+
+# Arquivos de cache do Mac
+.Trashes
+
+# Arquivos de sistema do Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Arquivos de cache de miniatura do Windows
+[Dd]esktop.ini
+
+# Arquivos de dump do Windows
+$RECYCLE.BIN/
+
+# Pastas do sistema de arquivos do Windows
+System Volume Information
+
+# Arquivos de cache e logs do Visual Studio Code
+.vscode/*
+
+# Arquivos de cache e logs do Visual Studio
+.vs/
+
+# Arquivos de cache e logs do Eclipse
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.recommenders
+
+# Arquivos de configuração específicos do usuário do Eclipse
+.settings/
+
+# Arquivos compilados do Java
+*.class
+
+# Pacotes de arquivos gerados (como .jar, .war, .ear)
+*.jar
+*.war
+*.ear
+
+# Arquivos de log diversos
+*.log
+
+# Diretórios node_modules
+node_modules/
+
+# Arquivos de build do SBT
+target/
+
+# Arquivos e pastas de build do Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Arquivos de backup de ferramentas diversas
+*.backup
+*.bak
+*.tmp
+*.swp
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
