@@ -79,9 +79,12 @@ grafana:
       version: 1
       orgId: 1
 
-# defaultRules:
-#   create: true
-#   rules:
+defaultRules:
+  create: true
+  rules:
+    kubeControllerManager: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
 #     alertmanager: true
 #     etcd: false
 #     configReloaders: true
@@ -91,7 +94,6 @@ grafana:
 #     kubeApiserverBurnrate: false
 #     kubeApiserverHistogram: false
 #     kubeApiserverSlos: false
-#     kubeControllerManager: false
 #     kubelet: true
 #     kubeProxy: false
 #     kubePrometheusGeneral: true
@@ -100,8 +102,6 @@ grafana:
 #     kubernetesResources: true
 #     kubernetesStorage: true
 #     kubernetesSystem: true
-#     kubeSchedulerAlerting: false
-#     kubeSchedulerRecording: false
 #     kubeStateMetrics: true
 #     network: true
 #     node: true
