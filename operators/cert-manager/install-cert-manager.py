@@ -18,3 +18,6 @@ def install_cert_manager():
 
 if __name__ == "__main__":
     install_cert_manager()
+
+# securityContext:
+#   fsGroup: 1001
