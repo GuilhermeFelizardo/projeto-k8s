@@ -113,20 +113,6 @@ def get_account_id():
     sts_client = boto3.client('sts')
     return sts_client.get_caller_identity()["Account"]
 
-def annotate_service_account(iam_role, aws_account_id):
-    command = [
-        "kubectl", "annotate", "serviceaccount", "cert-manager",
-        "-n", "cert-manager",
-        f"eks.amazonaws.com/role-arn={iam_role}",
-        "--overwrite"
-    ]
-
-    try:
-        subprocess.run(command, check=True)
-        print(f"Service Account 'cert-manager' anotado com sucesso com a role ARN {iam_role}.")
-    except subprocess.CalledProcessError as e:
-        print(f"Erro ao anotar a Service Account: {e}")
-
 if __name__ == "__main__":
     role_name = "cert-manager-r53"
 
@@ -136,7 +122,5 @@ if __name__ == "__main__":
     aws_account_id = get_account_id()
 
     iam_role =  f'arn:aws:iam::{aws_account_id}:role/{role_name}'
-    get_oidc_provider_arn(cluster_name)
 
     create_iam_policy_and_role(role_name, policy_document, cluster_name, namespace, service_account_name)
-    annotate_service_account(iam_role, aws_account_id)
