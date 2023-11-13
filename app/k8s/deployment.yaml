@@ -15,5 +15,9 @@ spec:
       containers:
       - name: gym-app
         image: 022887457179.dkr.ecr.us-east-1.amazonaws.com/gym-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
+        env:
+        - name: TEMPO_ENDPOINT
+          value: "tempo.monitoring.svc.cluster.local:4317"

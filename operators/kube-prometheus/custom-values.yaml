@@ -87,6 +87,13 @@ grafana:
       url: http://loki.monitoring.svc.cluster.local:3100
       version: 1
       orgId: 1
+    - name: Tempo
+      type: tempo
+      isDefault: false
+      access: proxy
+      url: http://tempo.monitoring.svc.cluster.local:3100
+      version: 1
+      orgId: 1
 
 defaultRules:
   create: true
