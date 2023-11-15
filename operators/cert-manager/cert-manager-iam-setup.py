@@ -89,6 +89,14 @@ def create_iam_policy_and_role(role_name, policy_document, cluster_name, namespa
         ]
     }
 
+
+    try:
+        iam_client.get_role(RoleName=role_name)
+        print(f"A role '{role_name}' já existe. Excluindo e criando novamente.")
+        delete_iam_role(role_name)
+    except iam_client.exceptions.NoSuchEntityException:
+        pass
+
     # Tenta criar a role
     try:
         iam_client.create_role(
@@ -112,6 +120,20 @@ def create_iam_policy_and_role(role_name, policy_document, cluster_name, namespa
 def get_account_id():
     sts_client = boto3.client('sts')
     return sts_client.get_caller_identity()["Account"]
+
+def delete_iam_role(role_name):
+    iam_client = boto3.client('iam')
+    try:
+        policies = iam_client.list_attached_role_policies(RoleName=role_name)['AttachedPolicies']
+        for policy in policies:
+            iam_client.detach_role_policy(RoleName=role_name, PolicyArn=policy['PolicyArn'])
+
+        iam_client.delete_role(RoleName=role_name)
+        print(f"Role '{role_name}' excluída com sucesso.")
+    except iam_client.exceptions.NoSuchEntityException:
+        print(f"A role '{role_name}' não existe e não pode ser excluída.")
+    except Exception as e:
+        print(f"Erro ao excluir a role: {e}")
 
 if __name__ == "__main__":
     role_name = "cert-manager-r53"

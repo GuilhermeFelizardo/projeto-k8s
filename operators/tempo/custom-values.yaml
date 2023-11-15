@@ -3,19 +3,29 @@ env:
   GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
   GF_AUTH_DISABLE_LOGIN_FORM: true
 
-datasources:
-  datasources.yaml:
-    apiVersion: 1
+tempo:
+  retention: 48h
 
-    datasources:
-      - name: Tempo
-        type: tempo
-        access: proxy
-        orgId: 1
-        # url: http://tempo:3100
-        basicAuth: false
-        isDefault: false
-        version: 1
-        editable: false
-        apiVersion: 1
-        uid: tempo
+persistence:
+  enabled: true
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+
+# datasources:
+#   datasources.yaml:
+#     apiVersion: 1
+
+#     datasources:
+#       - name: Tempo
+#         type: tempo
+#         access: proxy
+#         orgId: 1
+#         # url: http://tempo:3100
+#         basicAuth: false
+#         isDefault: false
+#         version: 1
+#         editable: false
+#         apiVersion: 1
+#         uid: tempo

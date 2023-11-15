@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servico-principal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: servico-principal
+  template:
+    metadata:
+      labels:
+        app: servico-principal
+    spec:
+      containers:
+      - name: servico-principal
+        image: 022887457179.dkr.ecr.us-east-1.amazonaws.com/servico-principal:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: TEMPO_ENDPOINT
+          value: "http://tempo.monitoring.svc.cluster.local:4317"  
+        - name: SERVICO_EXTERNO_URL
+          value: "http://servico-externo.default.svc.cluster.local:80/externo"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: servico-principal
+spec:
+  selector:
+    app: servico-principal
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-servico-principal
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - api.guilhermefreis.com
+    secretName: certificado-tls
+  rules:
+  - host: api.guilhermefreis.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: servico-principal
+            port:
+              number: 5000

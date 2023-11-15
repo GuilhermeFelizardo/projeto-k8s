@@ -1,6 +1,8 @@
 import subprocess
 import os
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
 def run_command(command, error_message):
     try:
         subprocess.run(command, check=True, shell=True)
@@ -19,7 +21,7 @@ def install_tempo_helm_chart():
         return
 
     # Instalando o chart Tempo
-    values_file_path = os.path.join(os.getcwd(), 'custom-values.yaml')
+    values_file_path = os.path.join(script_dir, 'custom-values.yaml')
     install_command = f"helm upgrade --install tempo grafana/tempo --namespace monitoring --version 1.6.3 --create-namespace -f {values_file_path}"
     if not run_command(install_command, "Erro ao instalar o chart Tempo com Helm."):
         return

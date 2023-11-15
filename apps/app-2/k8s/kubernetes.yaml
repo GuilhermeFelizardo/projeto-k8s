@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servico-externo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: servico-externo
+  template:
+    metadata:
+      labels:
+        app: servico-externo
+    spec:
+      containers:
+      - name: servico-externo
+        image: 022887457179.dkr.ecr.us-east-1.amazonaws.com/servico-externo:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: TEMPO_ENDPOINT
+          value: "http://tempo.monitoring.svc.cluster.local:4317"
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: servico-externo
+spec:
+  selector:
+    app: servico-externo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000

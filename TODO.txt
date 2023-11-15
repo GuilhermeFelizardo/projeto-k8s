@@ -1,0 +1,16 @@
+Mudar Role do CertManager para ser apagada - feito
+Testar Nginx - feito
+Criar Ingress - feito
+Volume para Tempo - feito
+Instalar prometheus-rules - feito
+Instalar grafana dash - feito
+
+Arrumar Grafana Datasource Tempo
+Criar Dash Grafana
+
+
+Instalar karpenter
+
+Volume para Loki - ?
+
+argocd
