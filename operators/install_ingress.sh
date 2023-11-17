@@ -4,14 +4,14 @@
 SCRIPT_PYTHON="/Users/guilherme/projeto-k8s/operators/nginx-ingress-controller/install-nginx-ingress-controller.py"
 SCRIPT_SH="/Users/guilherme/projeto-k8s/operators/nginx-ingress-controller/change_dns.sh"
 
-
 # Executar o script Python
 echo "Executando o script de instalação do NGINX Ingress Controller..."
 python3 "$SCRIPT_PYTHON"
 
 # Verificar se o script Python foi executado com sucesso
 if [ $? -eq 0 ]; then
-    echo "Instalação do NGINX Ingress Controller concluída. Prosseguindo para a alteração do DNS."
+    echo "Instalação do NGINX Ingress Controller concluída. Prosseguindo para a alteração do DNS após 5 segundos de espera."
+    sleep 5  # Adicionando um atraso de 5 segundos
 else
     echo "Falha na instalação do NGINX Ingress Controller. Abortando a alteração do DNS."
     exit 1
