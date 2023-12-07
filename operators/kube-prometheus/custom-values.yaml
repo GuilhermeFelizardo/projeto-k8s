@@ -57,6 +57,19 @@ alertmanager:
           {{ end }}
 
 prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/ssl-passthrough: 'false'
+      nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    hosts:
+      - prometheus.guilhermefreis.com
+    tls: 
+    - secretName: certificado-tls
+      hosts:
+      - prometheus.guilhermefreis.com
   prometheusSpec:    
     storageSpec: 
      volumeClaimTemplate:
@@ -108,12 +121,14 @@ grafana:
       version: 1
       orgId: 1
 
-defaultRules:
-  create: true
-  rules:
-    kubeControllerManager: false
-    kubeSchedulerAlerting: false
-    kubeSchedulerRecording: false
+# defaultRules:
+#   create: true
+#   rules:
+#     kubeControllerManager: false
+#     kubeSchedulerAlerting: false
+#     kubeSchedulerRecording: false
+
+
 #     alertmanager: true
 #     etcd: false
 #     configReloaders: true

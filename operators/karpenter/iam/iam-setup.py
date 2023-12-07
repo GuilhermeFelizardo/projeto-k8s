@@ -177,16 +177,27 @@ def create_karpenter_controller_role(cluster_name, oidc_endpoint, aws_account_id
 
 def delete_role(iam_client, role_name):
     try:
-        # Desassociar políticas vinculadas à role
+        # Desassociar políticas gerenciadas vinculadas à role
         policies = iam_client.list_attached_role_policies(RoleName=role_name)['AttachedPolicies']
         for policy in policies:
             iam_client.detach_role_policy(RoleName=role_name, PolicyArn=policy['PolicyArn'])
-        
+
+        # Excluir políticas in-line associadas à role
+        inline_policies = iam_client.list_role_policies(RoleName=role_name)['PolicyNames']
+        for policy_name in inline_policies:
+            iam_client.delete_role_policy(RoleName=role_name, PolicyName=policy_name)
+
+        # Remover a role de todos os perfis de instância associados
+        instance_profiles = iam_client.list_instance_profiles_for_role(RoleName=role_name)['InstanceProfiles']
+        for profile in instance_profiles:
+            iam_client.remove_role_from_instance_profile(InstanceProfileName=profile['InstanceProfileName'], RoleName=role_name)
+
         # Excluir a role
         iam_client.delete_role(RoleName=role_name)
         print(f"Role {role_name} excluída com sucesso.")
     except Exception as e:
         print(f"Erro ao excluir a role {role_name}: {e}")
+
 
 def create_role(iam_client, role_name, trust_policy):
     try:

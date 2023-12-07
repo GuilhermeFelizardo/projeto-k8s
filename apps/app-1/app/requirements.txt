@@ -6,3 +6,4 @@ opentelemetry-exporter-otlp
 opentelemetry-instrumentation-flask
 opentelemetry-instrumentation-requests
 waitress
+prometheus_flask_exporter

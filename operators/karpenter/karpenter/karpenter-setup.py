@@ -1,15 +1,16 @@
 import subprocess
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 def get_aws_account_id():
     return subprocess.check_output("aws sts get-caller-identity --query 'Account' --output text", shell=True).decode().strip()
 
-def install_karpenter(karpenter_version, cluster_name, aws_partition, aws_account_id):
+def install_karpenter(karpenter_version):
+    custom_values_path = os.path.join(script_dir, 'custom-values.yaml')
     command = (
         f"helm install karpenter oci://public.ecr.aws/karpenter/karpenter --version {karpenter_version} "
-        f"--namespace karpenter --create-namespace --set settings.clusterName={cluster_name} "
-        f"--set serviceAccount.annotations.\"eks\\.amazonaws\\.com/role-arn\"=\"arn:{aws_partition}:iam::{aws_account_id}:role/KarpenterControllerRole-{cluster_name}\" "
-        f"--set controller.resources.requests.cpu=1 --set controller.resources.requests.memory=1Gi "
-        f"--set controller.resources.limits.cpu=1 --set controller.resources.limits.memory=1Gi"
+        f"--namespace karpenter --create-namespace -f {custom_values_path}"
     )
     result = subprocess.run(command, shell=True, capture_output=True)
     if result.returncode != 0:
@@ -19,11 +20,8 @@ def install_karpenter(karpenter_version, cluster_name, aws_partition, aws_accoun
 
 def main():
     karpenter_version = 'v0.32.1'
-    cluster_name = 'production-cluster'
-    aws_partition = 'aws'  # Ajuste conforme necessário
-    aws_account_id = get_aws_account_id()
 
-    install_karpenter(karpenter_version, cluster_name, aws_partition, aws_account_id)
+    install_karpenter(karpenter_version)
 
 if __name__ == '__main__':
     main()

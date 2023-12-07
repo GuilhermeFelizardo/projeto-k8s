@@ -24,10 +24,10 @@ spec:
       nodeClassRef:
         name: default
   limits:
-    cpu: 1000
+    cpu: 10
   disruption:
     consolidationPolicy: WhenUnderutilized
-    # expireAfter: 720h # 30 * 24h = 720h
+    expireAfter: 720h # 30 * 24h = 720h
 ---
 apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass

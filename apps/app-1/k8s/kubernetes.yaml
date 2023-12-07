@@ -17,7 +17,8 @@ spec:
         image: 022887457179.dkr.ecr.us-east-1.amazonaws.com/servico-principal:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 5000
+        - name: http
+          containerPort: 5000
         resources:
           requests:
             memory: "64Mi"
@@ -35,14 +36,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: servico-principal
+  name: service-servico-principal
+  labels:
+     app: servico-principal
 spec:
   selector:
     app: servico-principal
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 5000
-      targetPort: 5000
+      targetPort: http
 
 ---
 
@@ -68,6 +72,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: servico-principal
+            name: service-servico-principal
             port:
               number: 5000
