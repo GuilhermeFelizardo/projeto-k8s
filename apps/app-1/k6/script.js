@@ -17,4 +17,5 @@ export default function () {
     http.get('https://api.guilhermefreis.com/contato');
     http.get('https://api.guilhermefreis.com/status');
     http.get('https://api.guilhermefreis.com/chamada');
+    // http.get('https://api.guilhermefreis.com/error');
 }

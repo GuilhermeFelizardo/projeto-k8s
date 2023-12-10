@@ -16,20 +16,12 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 ```
 
-## Criar Namespace
-
-É recomendado criar um namespace específico para o Loki. No exemplo abaixo, um namespace chamado `monitoring` é criado:
-
-```bash
-kubectl create namespace monitoring
-```
-
 ## Instalar Loki
 
 Com o repositório adicionado e o namespace criado, você pode instalar o Loki. Certifique-se de ter um arquivo chamado `custom-values.yaml` com suas configurações personalizadas para o Loki. Se você não tiver este arquivo, o Loki será instalado com as configurações padrão.
 
 ```bash
-helm upgrade --install loki grafana/loki-stack -f custom-values.yaml -n monitoring
+helm upgrade --install loki grafana/loki-stack -f custom-values.yaml --create-namespace -n monitoring
 ```
 
 ## Verificação

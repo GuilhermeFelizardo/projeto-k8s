@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: servico-principal
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: servico-principal

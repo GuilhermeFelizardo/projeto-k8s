@@ -10,6 +10,7 @@ DIR_BASE="/Users/guilherme/projeto-k8s/operators"
 echo "Instalando kube-prometheus..."
 python3 "$DIR_BASE/kube-prometheus/install-kube-prometheus.py"
 python3 "$DIR_BASE/kube-prometheus/prometheus-rules/install-prometheus-rules.py"
+python3 "$DIR_BASE/kube-prometheus/prometheus-service-monitor/install-prometheus-service-monitor.py"
 python3 "$DIR_BASE/kube-prometheus/grafana-dashboards/install-grafana-dashboards.py"
 
 echo "Instalando loki..."

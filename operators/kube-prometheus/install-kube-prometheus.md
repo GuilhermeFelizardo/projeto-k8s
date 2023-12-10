@@ -17,20 +17,12 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 ```
 
-## Criar Namespace
-
-Crie um namespace chamado `monitoring` para a instalação do Prometheus:
-
-```bash
-kubectl create namespace monitoring
-```
-
 ## Instalar ou Atualizar Kube Prometheus
 
 Instale ou atualize o Kube Prometheus no namespace `monitoring` usando o comando a seguir. Certifique-se de ter um arquivo chamado `custom-values.yaml` com suas configurações personalizadas para o Kube Prometheus. Se não tiver este arquivo, o Prometheus será instalado com as configurações padrão:
 
 ```bash
-helm install --upgrade prometheus prometheus-community/kube-prometheus-stack -n monitoring -f custom-values.yaml
+helm install --upgrade prometheus prometheus-community/kube-prometheus-stack --create-namespace -n monitoring -f custom-values.yaml
 ```
 
 ## Verificação
