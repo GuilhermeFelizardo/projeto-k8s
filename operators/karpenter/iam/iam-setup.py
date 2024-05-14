@@ -198,7 +198,6 @@ def delete_role(iam_client, role_name):
     except Exception as e:
         print(f"Erro ao excluir a role {role_name}: {e}")
 
-
 def create_role(iam_client, role_name, trust_policy):
     try:
         iam_client.get_role(RoleName=role_name)

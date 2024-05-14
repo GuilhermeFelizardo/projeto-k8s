@@ -11,6 +11,7 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.semconv.resource import ResourceAttributes
+
 from prometheus_flask_exporter import PrometheusMetrics
 
 # Inicializa a aplicação Flask
@@ -32,6 +33,7 @@ def configure_opentelemetry():
 
 # Definição das rotas da aplicação
 def setup_routes(app):
+    
     @app.route("/")
     def home():
         random_sleep()
