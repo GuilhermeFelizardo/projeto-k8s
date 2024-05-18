@@ -1,22 +1,15 @@
-# kubecostToken: "aGVucmlrLnJleGVkQGR5bmF0cmFjZS5jb20=xm343yadf98"
-
-prometheus:
-  kube-state-metrics:
-    disabled: true
-  nodeExporter:
-    enabled: false
-
-
 global:
+  prometheus:
+    fqdn: http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+    enabled: false
   grafana:
     enabled: false
-    fqdn: "http://prometheus-grafan.savc.cluster.local:80"
-  prometheus:
-    fqdn: "http://prometheus.monitoring.svc.cluster.local:9090"
+
+prometheus:
+  nodeExporter:
     enabled: false
-
-serviceMonitor:
-  enabled: true
-
-prometheusRule:
-  enabled: true
+  kube-state-metrics:
+    disabled: true
+  serviceAccounts:
+    nodeExporter:
+      create: false

@@ -13,19 +13,19 @@ def install_nginx_ingress():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     custom_values_path = os.path.join(script_dir, 'custom-values.yaml')
 
-    # Adicionando o repositório nginx-stable
-    if not run_command("helm repo add nginx-stable https://helm.nginx.com/stable", "Erro ao adicionar o repositório nginx-stable."):
+    # Add the nginx-stable repository
+    if not run_command("helm repo add nginx-stable https://helm.nginx.com/stable", "Error adding the nginx-stable repository."):
         return
 
-    # Atualizando os repositórios Helm
-    if not run_command("helm repo update", "Erro ao atualizar os repositórios do Helm."):
+    # Update Helm repositories
+    if not run_command("helm repo update", "Error updating Helm repositories."):
         return
 
-    # Instalando o NGINX Ingress Controller
-    if not run_command(f"helm upgrade --install nginx-ingress nginx-stable/nginx-ingress --namespace nginx-ingress --create-namespace -f {custom_values_path}", "Erro ao instalar o NGINX Ingress Controller com Helm."):
+    # Install NGINX Ingress Controller
+    if not run_command(f"helm upgrade --install nginx-ingress nginx-stable/nginx-ingress --namespace nginx-ingress --create-namespace -f {custom_values_path}", "Error installing NGINX Ingress Controller with Helm."):
         return
 
-    print("NGINX Ingress Controller instalado com sucesso.")
+    print("NGINX Ingress Controller installed successfully.")
 
 if __name__ == "__main__":
     install_nginx_ingress()

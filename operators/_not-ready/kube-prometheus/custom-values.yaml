@@ -70,7 +70,19 @@ prometheus:
     - secretName: certificado-tls
       hosts:
       - prometheus.guilhermefreis.com
-  prometheusSpec:    
+  prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: kubecost
+        honor_labels: true
+        scrape_interval: 1m
+        scrape_timeout: 10s
+        metrics_path: /metrics
+        scheme: http
+        dns_sd_configs:
+        - names:
+          - kubecost-cost-analyzer.kubecost
+          type: 'A'
+          port: 9003
     storageSpec: 
      volumeClaimTemplate:
        spec:
@@ -113,22 +125,6 @@ grafana:
       url: http://loki.monitoring.svc.cluster.local:3100
       version: 1
       orgId: 1
-  #     - name: Loki
-  # type: loki
-  # access: proxy
-  # orgId: 1
-  # url: http://loki:3100
-  # basicAuth: false
-  # isDefault: false
-  # version: 1
-  # editable: false
-  # apiVersion: 1
-  # jsonData:
-  #   derivedFields:
-  #     - datasourceUid: tempo
-  #       matcherRegex: \[.+,(.+),.+\]
-  #       name: TraceID
-  #       url: $${__value.raw}
     - name: Tempo
       type: tempo
       isDefault: false

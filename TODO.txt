@@ -4,13 +4,10 @@ Criar Ingress - feito
 Volume para Tempo - feito
 Instalar prometheus-rules - feito
 Instalar grafana dash - feito
+Volume para Loki - feito
+Instalar karpenter - feito
 
 Arrumar Grafana Datasource Tempo
 Criar Dash Grafana
-
-
-Instalar karpenter
-
-Volume para Loki - ?
 
 argocd

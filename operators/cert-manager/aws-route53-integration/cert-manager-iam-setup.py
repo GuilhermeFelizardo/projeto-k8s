@@ -4,6 +4,11 @@ import subprocess
 
 cluster_name = 'production-cluster'
 
+namespace = "cert-manager"
+service_account_name = "cert-manager"
+role_name = "cert-manager-r53"
+
+
 policy_document = {
     "Version": "2012-10-17",
     "Statement": [
@@ -36,7 +41,7 @@ def get_oidc_endpoint(cluster_name):
         oidc_issuer = oidc_issuer.replace("https://", "")
         return oidc_issuer
     except Exception as e:
-        print(f"Erro ao buscar o OIDC endpoint: {e}")
+        print(f"Error fetching OIDC endpoint: {e}")
         return None
 
 def get_oidc_provider_arn(cluster_name):
@@ -48,24 +53,24 @@ def get_oidc_provider_arn(cluster_name):
         oidc_provider_arn = f"arn:aws:iam::{account_id}:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/{oidc_issuer.split('/')[-1]}"
         return oidc_provider_arn
     except Exception as e:
-        print(f"Erro ao buscar o OIDC provider ARN: {e}")
+        print(f"Error fetching OIDC provider ARN: {e}")
         return None
 
 def create_iam_policy_and_role(role_name, policy_document, cluster_name, namespace, service_account_name):
     iam_client = boto3.client('iam')
     policy_name = f"{role_name}-policy"
 
-    # Tenta criar a política
+    # Attempt to create the policy
     try:
         iam_client.create_policy(
             PolicyName=policy_name,
             PolicyDocument=json.dumps(policy_document)
         )
-        print(f"Política '{policy_name}' criada com sucesso.")
+        print(f"Policy '{policy_name}' created successfully.")
     except iam_client.exceptions.EntityAlreadyExistsException:
-        print(f"A política '{policy_name}' já existe.")
+        print(f"Policy '{policy_name}' already exists.")
 
-    # Obtém o OIDC Provider ARN
+    # Get the OIDC Provider ARN
     oidc_provider_arn = get_oidc_provider_arn(cluster_name)
     oidc_provider = get_oidc_endpoint(cluster_name)
     if not oidc_provider_arn:
@@ -89,25 +94,24 @@ def create_iam_policy_and_role(role_name, policy_document, cluster_name, namespa
         ]
     }
 
-
     try:
         iam_client.get_role(RoleName=role_name)
-        print(f"A role '{role_name}' já existe. Excluindo e criando novamente.")
+        print(f"Role '{role_name}' already exists. Deleting and recreating.")
         delete_iam_role(role_name)
     except iam_client.exceptions.NoSuchEntityException:
         pass
 
-    # Tenta criar a role
+    # Attempt to create the role
     try:
         iam_client.create_role(
             RoleName=role_name,
             AssumeRolePolicyDocument=json.dumps(trust_policy),
-            Description="Role para integração com EKS OIDC"
+            Description="Role for EKS OIDC integration"
         )
-        print(f"Role '{role_name}' criada com sucesso.")
+        print(f"Role '{role_name}' created successfully.")
 
     except iam_client.exceptions.EntityAlreadyExistsException:
-        print(f"A role '{role_name}' já existe.")
+        print(f"Role '{role_name}' already exists.")
 
     policy_arn = f"arn:aws:iam::{get_account_id()}:policy/{policy_name}"
         
@@ -115,7 +119,7 @@ def create_iam_policy_and_role(role_name, policy_document, cluster_name, namespa
         RoleName=role_name,
         PolicyArn=policy_arn
     )
-    print(f"Política '{policy_name}' associada à role '{role_name}'.")
+    print(f"Policy '{policy_name}' attached to role '{role_name}'.")
 
 def get_account_id():
     sts_client = boto3.client('sts')
@@ -129,18 +133,16 @@ def delete_iam_role(role_name):
             iam_client.detach_role_policy(RoleName=role_name, PolicyArn=policy['PolicyArn'])
 
         iam_client.delete_role(RoleName=role_name)
-        print(f"Role '{role_name}' excluída com sucesso.")
+        print(f"Role '{role_name}' deleted successfully.")
     except iam_client.exceptions.NoSuchEntityException:
-        print(f"A role '{role_name}' não existe e não pode ser excluída.")
+        print(f"Role '{role_name}' does not exist and cannot be deleted.")
     except Exception as e:
-        print(f"Erro ao excluir a role: {e}")
+        print(f"Error deleting the role: {e}")
 
 if __name__ == "__main__":
     role_name = "cert-manager-r53"
 
-    namespace = "cert-manager"
-    service_account_name = "cert-manager"
-    role_name = "cert-manager-r53"
+
     aws_account_id = get_account_id()
 
     iam_role =  f'arn:aws:iam::{aws_account_id}:role/{role_name}'

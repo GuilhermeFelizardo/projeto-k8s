@@ -6,29 +6,17 @@ def run_command(command, error_message):
     if process.returncode != 0:
         print(error_message)
         print(f"Detalhes do erro: {err.decode('utf-8')}")
-        return False, ""
-    return True, out.decode('utf-8')
+        return False
+    return True
 
 def install_kubed():
-    success, _ = run_command("helm repo add appscode https://charts.appscode.com/stable/",
-                             "Erro ao adicionar o repositório appscode.")
-    if not success:
+    if not run_command("helm repo add appscode https://charts.appscode.com/stable/", "Erro ao adicionar o repositório Appscode."):
         return
 
-    success, _ = run_command("helm repo update",
-                             "Erro ao atualizar os repositórios do Helm.")
-    if not success:
+    if not run_command("helm repo update", "Erro ao atualizar os repositórios do Helm."):
         return
 
-    success, search_result = run_command("helm search repo appscode/kubed --version v0.12.0",
-                                         "Erro ao procurar pela versão do kubed no repositório appscode.")
-    if not success or "appscode/kubed" not in search_result:
-        print("Versão especificada do kubed não encontrada no repositório appscode.")
-        return
-
-    success, _ = run_command("helm upgrade --install kubed appscode/kubed --version v0.12.0 --namespace kube-system",
-                             "Erro ao instalar o kubed.")
-    if not success:
+    if not run_command("helm install kubed appscode/kubed --version v0.13.2 --namespace kube-system", "Erro ao instalar o Kubed com Helm."):
         return
 
     print("Kubed instalado com sucesso!")
