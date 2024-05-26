@@ -107,7 +107,10 @@ spec:
   secretName: my-certificate-tls # Secret name where the certificate will be stored
   secretTemplate:
     annotations:
-      kubed.appscode.com/sync: "" # Annotation to synchronize the Secret with Kubed
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "" # Annotations to synchronize the Secret with reflector
   issuerRef:
     name: letsencrypt-prod # Reference to the previously defined ClusterIssuer
     kind: ClusterIssuer

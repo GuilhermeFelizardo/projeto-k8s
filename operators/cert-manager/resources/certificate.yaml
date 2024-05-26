@@ -1,13 +1,16 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: certificado-tls
+  name: certificate-tls
   namespace: cert-manager
 spec:
-  secretName: certificado-tls
+  secretName: certificate-tls
   secretTemplate:
     annotations:
-      kubed.appscode.com/sync: ""
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
