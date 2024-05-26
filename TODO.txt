@@ -6,8 +6,8 @@ Instalar prometheus-rules - feito
 Instalar grafana dash - feito
 Volume para Loki - feito
 Instalar karpenter - feito
-
-Arrumar Grafana Datasource Tempo
-Criar Dash Grafana
+Arrumar loki - feito
+Mudar storage para gp3 - feito
+Arrumar Grafana Datasource Tempo - feito
 
 argocd

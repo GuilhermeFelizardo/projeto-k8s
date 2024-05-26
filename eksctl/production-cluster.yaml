@@ -4,13 +4,12 @@ kind: ClusterConfig
 metadata:
   name: production-cluster
   region: us-east-1
-  version: "1.28"
+  version: "1.29"
   tags:
     managed: eksctl
     owner: production-cluster
 vpc:
   id: "vpc-0d73d2f5e07f9352c"
-  securityGroup: "sg-0ea8c00a87884d55e"
   subnets:
     public:
         us-east-1a:
