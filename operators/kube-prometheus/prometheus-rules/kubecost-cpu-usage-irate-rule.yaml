@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+  name: kubecost-cpu-usage-irate-rule
+  namespace: monitoring
+spec:
+  groups:
+    - name: kubecost
+      rules:
+      - record: kubecost_container_cpu_usage_irate
+        expr: avg by (container, pod, namespace) (irate(container_cpu_usage_seconds_total{container!="", container!="POD"}[5m]))
