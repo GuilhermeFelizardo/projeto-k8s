@@ -1,7 +1,3 @@
-Claro! Aqui está a documentação atualizada com os comandos do Helm para instalar o Reflector:
-
-# Documentation: Reflector
-
 ## What is Reflector?
 
 Reflector is a Kubernetes tool that facilitates the synchronization of Kubernetes resources across multiple namespaces. It ensures that resources such as Secrets and ConfigMaps are consistently replicated across different namespaces, allowing for easier management and maintenance of Kubernetes clusters.
